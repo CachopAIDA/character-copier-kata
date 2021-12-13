@@ -15,6 +15,8 @@ namespace CharacterCopierKata
 
         public void Copy()
         {
+            var character = source.Next();
+            destination.Append(character);
         }
     }
 }

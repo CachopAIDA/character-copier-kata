@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Xunit;
 
 namespace CharacterCopierKata.Tests
@@ -6,19 +5,20 @@ namespace CharacterCopierKata.Tests
     public class CopierShould
     {
         [Fact]
-        public void When_Copy_then_destination_is_equal_source()
+        public void copy_the_first_character_of_source_into_destination()
         {
-            const string content = "asasdas";
-             
-            SourceFake source = new SourceFake(content);
-            DestinationFake destination = new DestinationFake();
-            Copier copier = new Copier(source, destination);
+            const string content = "a";
+
+            var source = new SourceFake(content);
+            var destination = new DestinationFake();
+            var copier = new Copier(source, destination);
 
             copier.Copy();
 
             Assert.Equal(destination.Content, source.Content);
         }
     }
+
     public class SourceFake : ISource
     {
         public SourceFake(string content)
@@ -26,9 +26,20 @@ namespace CharacterCopierKata.Tests
             this.Content = content;
         }
         public string Content { get; set; }
+
+        public char Next()
+        {
+            return Content[0];
+        }
     }
+
     public class DestinationFake : IDestination
     {
         public string Content { get; set; }
+
+        public void Append(char character)
+        {
+            Content = character.ToString();
+        }
     }
 }
