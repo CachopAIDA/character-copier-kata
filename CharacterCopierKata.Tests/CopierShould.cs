@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 
 namespace CharacterCopierKata.Tests
@@ -16,6 +17,24 @@ namespace CharacterCopierKata.Tests
             copier.Copy();
 
             Assert.Equal(destination.Content, source.Content);
+        }
+
+        [Fact]
+        public void throw_exception_when_source_is_empty()
+        {
+            var sourceEmptyFake = new SourceEmptyFake();
+            var destination = new DestinationFake();
+            var copier = new Copier(sourceEmptyFake, destination);
+
+            Assert.Throws<Exception>(() => copier.Copy());
+        }
+    }
+
+    public class SourceEmptyFake : ISource
+    {
+        public char Next()
+        {
+            throw new Exception();
         }
     }
 
