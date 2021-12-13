@@ -4,5 +4,6 @@ namespace CharacterCopierKata
     {
         
         char Next();
+        bool HasNext();
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Security.Cryptography;
 using Xunit;
 
 namespace CharacterCopierKata.Tests
@@ -29,11 +31,56 @@ namespace CharacterCopierKata.Tests
             var exception = Assert.Throws<Exception>(() => copier.Copy());
             Assert.Equal("The source is empty", exception.Message);
         }
+
+        [Fact]
+        public void copy_full_source_content_to_destination()
+        {
+            const string content = "content";
+            var source = new FullSourceFake(content);
+            var destination = new FullDestinationFake();
+            var copier = new Copier(source, destination);
+
+            copier.Copy();
+            
+            Assert.Equal(destination.Content, source.Content);
+        }
+    }
+
+    public class FullDestinationFake : DestinationFake
+    {
+        public override void Append(char character)
+        {
+            base.Content += character;
+        }
+    }
+
+    public class FullSourceFake : SourceFake
+    {
+        private int index = 0;
+
+        public FullSourceFake(string content) : base(content)
+        {
+        }
+
+        public override char Next()
+        {
+            return base.Content[index++];
+        }
+
+        public override bool HasNext()
+        {
+            return index < base.Content.Length;
+        }
     }
 
     public class SourceEmptyFake : ISource
     {
         public char Next()
+        {
+            throw new Exception();
+        }
+
+        public bool HasNext()
         {
             throw new Exception();
         }
@@ -47,17 +94,22 @@ namespace CharacterCopierKata.Tests
         }
         public string Content { get; }
 
-        public char Next()
+        public virtual char Next()
         {
             return Content[0];
+        }
+
+        public virtual bool HasNext()
+        {
+            return false;
         }
     }
 
     public class DestinationFake : IDestination
     {
-        public string Content { get; private set; }
+        public string Content { get; protected set; }
 
-        public void Append(char character)
+        public virtual void Append(char character)
         {
             Content = character.ToString();
         }

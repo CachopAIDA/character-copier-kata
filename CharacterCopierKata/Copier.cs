@@ -17,8 +17,11 @@ namespace CharacterCopierKata
         {
             try
             {
-                var character = source.Next();
-                destination.Append(character);
+                do
+                {
+                    var character = source.Next();
+                    destination.Append(character);
+                } while (source.HasNext());
             }
             catch 
             {
