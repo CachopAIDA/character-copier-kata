@@ -15,8 +15,15 @@ namespace CharacterCopierKata
 
         public void Copy()
         {
-            var character = source.Next();
-            destination.Append(character);
+            try
+            {
+                var character = source.Next();
+                destination.Append(character);
+            }
+            catch 
+            {
+                throw new Exception("The source is empty");
+            }
         }
     }
 }

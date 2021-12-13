@@ -26,7 +26,8 @@ namespace CharacterCopierKata.Tests
             var destination = new DestinationFake();
             var copier = new Copier(sourceEmptyFake, destination);
 
-            Assert.Throws<Exception>(() => copier.Copy());
+            var exception = Assert.Throws<Exception>(() => copier.Copy());
+            Assert.Equal("The source is empty", exception.Message);
         }
     }
 
@@ -44,7 +45,7 @@ namespace CharacterCopierKata.Tests
         {
             this.Content = content;
         }
-        public string Content { get; set; }
+        public string Content { get; }
 
         public char Next()
         {
@@ -54,7 +55,7 @@ namespace CharacterCopierKata.Tests
 
     public class DestinationFake : IDestination
     {
-        public string Content { get; set; }
+        public string Content { get; private set; }
 
         public void Append(char character)
         {
