@@ -9,8 +9,13 @@ namespace CharacterCopierKata.Tests
         public void When_Copy_then_destination_is_equal_source()
         {
             const string content = "asasdas";
+             
             SourceFake source = new SourceFake(content);
             DestinationFake destination = new DestinationFake();
+            Copier copier = new Copier(source, destination);
+
+            copier.Copy();
+
             Assert.Equal(destination.Content, source.Content);
         }
     }
@@ -18,7 +23,7 @@ namespace CharacterCopierKata.Tests
     {
         public SourceFake(string content)
         {
-            throw new System.NotImplementedException();
+            this.Content = content;
         }
         public string Content { get; set; }
     }
