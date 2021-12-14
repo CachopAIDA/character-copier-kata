@@ -27,7 +27,7 @@ namespace CharacterCopierKata.Tests
         [Theory]
         [InlineData("a", 1)]
         [InlineData("ab", 2)]
-        public void copy_content_from_source_and_destination_with_1_char(string stringToCopy, int destinationTimes)
+        public void copy_content_from_source_and_destination_with_n_char(string stringToCopy, int destinationTimes)
         {
             CallCopy(stringToCopy);
 
@@ -53,5 +53,15 @@ namespace CharacterCopierKata.Tests
 
             Mock.Get(destination).Verify(d => d.SetContent(It.IsAny<string>()), Times.Never);
         }
+
+        [Fact]
+        public void when_string_is_provided_then_the_source_is_called_the_string_length_times()
+        {
+            var word = "cualquiercadenaquesemeocurre";
+            CallCopy(word);
+            
+            Mock.Get(source).Verify(s => s.GetContentOneToOne(), Times.Exactly(word.Length));
+        }
+
     }
 }
