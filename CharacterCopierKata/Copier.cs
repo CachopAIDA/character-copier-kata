@@ -15,7 +15,10 @@ namespace CharacterCopierKata
 
         public void Copy()
         {
-            destination.SetContent(source.GetContent());
+            foreach (var @char in source.GetContent())
+            {
+                destination.SetContent(@char.ToString());
+            }
         }
     }
 }
