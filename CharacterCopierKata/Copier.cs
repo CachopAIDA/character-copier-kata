@@ -4,15 +4,18 @@ namespace CharacterCopierKata
 {
     public class Copier
     {
+        private ISource source;
+        private IDestination destination;
+
         public Copier(ISource source, IDestination destination)
         {
-            // TODO: implement
+            this.destination = destination;
+            this.source = source;
         }
 
         public void Copy()
         {
-            // TODO: implement
-            throw new NotImplementedException();
+            destination.SetContent(source.GetContent());
         }
     }
 }
