@@ -38,6 +38,13 @@ namespace CharacterCopierKata.Tests
         [Fact]
         public void copy_the_characters_of_asdf_in_destination()
         {
+            Mock.Get(source).SetupSequence(s => s.GetContentOneToOne())
+                    .Returns('a')
+                    .Returns('s')
+                    .Returns('d')
+                    .Returns('f')
+                    ;
+
             CallCopy("asdf");
 
             Mock.Get(destination).Verify(d => d.SetContent(It.Is<string>(s=> s == "a")), Times.Once());
@@ -58,8 +65,8 @@ namespace CharacterCopierKata.Tests
         public void when_string_is_provided_then_the_source_is_called_the_string_length_times()
         {
             var word = "cualquiercadenaquesemeocurre";
+
             CallCopy(word);
-            
             Mock.Get(source).Verify(s => s.GetContentOneToOne(), Times.Exactly(word.Length));
         }
 
